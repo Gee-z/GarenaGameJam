@@ -6,88 +6,166 @@ public class BossCombat : MonoBehaviour
 {
     public WeaponHitbox weapon;       // For Attack1 & Attack2
     public WeaponHitbox lungeWeapon;  // For Attack3
+    public Transform combatPivot;
     public Transform player;          // Player to target
-    public float attackDuration = 0.4f;
-    public float attack1Move = 0.3f;
-    public float attack2Move = 0.4f;
-    public float attack3Lunge = 1f;
+    public float comboResetTime = 0.6f;
+    public float attackDuration1 = 0.4f;
+    public float attackDuration2 = 0.4f;
+    public float attackDuration3 = 0.7f;
+    public float comboWindow = 0.3f;
 
     public int attack1Damage = 10;
     public int attack2Damage = 10;
     public int attack3Damage = 20;
 
+    public float attack1Move = 0.3f;
+    public float attack2Move = 0.4f;
+    public float attack3Lunge = 1f;
+
+    public Animator anim;
+
     private enum State { Idle, Attack1, Attack2, Attack3 }
     private State currentState = State.Idle;
+     private Vector2 lockedAttackDirection;
+    private Rigidbody2D rb;
+    private Coroutine moveRoutine;
 
-    private Coroutine moveCoroutine;
+    public bool isAttacking { get; private set; }
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        rb.freezeRotation = true;
+    }
+
+    void Update()
+    {
+        if (currentState != State.Idle)
+        {
+            RotateCombatPivot(lockedAttackDirection);
+        }
+    }
+
 
     public void StartCombo()
     {
-        if (currentState == State.Idle)
-            StartCoroutine(ComboRoutine());
+        if (currentState != State.Idle) return;
+
+ 
+        lockedAttackDirection = (player.position - transform.position).normalized;
+
+        if (lockedAttackDirection.x >= 0)
+            transform.localScale = new Vector3(1, 1, 1);
+        else
+            transform.localScale = new Vector3(-1, 1, 1);
+
+        StartCoroutine(ComboRoutine());
     }
 
-    private IEnumerator ComboRoutine()
+
+    IEnumerator ComboRoutine()
     {
-        // --- ATTACK 1 ---
-        currentState = State.Attack1;
-        Vector3 dir1 = (player.position - transform.position).normalized;
-        ExecuteAttack(weapon, attack1Damage, attack1Move, dir1);
-        yield return new WaitForSeconds(attackDuration); // pause between attacks
+        isAttacking = true;
 
-        // --- ATTACK 2 ---
-        currentState = State.Attack2;
-        Vector3 dir2 = (player.position - transform.position).normalized;
-        ExecuteAttack(weapon, attack2Damage, attack2Move, dir2);
-        yield return new WaitForSeconds(attackDuration);
+        yield return DoAttack(State.Attack1);
+        yield return DoAttack(State.Attack2);
+        yield return DoAttack(State.Attack3);
 
-        // --- LUNGE ATTACK ---
-        currentState = State.Attack3;
-        Vector3 dir3 = (player.position - transform.position).normalized;
-        ExecuteAttack(lungeWeapon, attack3Damage, attack3Lunge, dir3, true); // lock rotation
-        yield return new WaitForSeconds(attackDuration);
-
-        currentState = State.Idle;
+        ResetCombo();
     }
 
-    private void ExecuteAttack(WeaponHitbox activeWeapon, int damage, float moveDistance, Vector3 direction, bool lockRotation = false)
+    IEnumerator DoAttack(State attackState)
     {
-        if (activeWeapon != null)
+        currentState = attackState;
+
+        WeaponHitbox activeWeapon;
+        float duration;
+        float moveDist;
+        int damage;
+
+        switch (attackState)
         {
-            // Enable collider and optionally lock rotation
-            activeWeapon.EnableHit(lockRotation, direction);
-            StartCoroutine(DisableWeaponAfter(activeWeapon, attackDuration));
+            case State.Attack1:
+                activeWeapon = weapon;
+                duration = attackDuration1;
+                moveDist = attack1Move;
+                damage = attack1Damage;
+                anim.SetTrigger("Attack1");
+                break;
+
+            case State.Attack2:
+                activeWeapon = weapon;
+                duration = attackDuration2;
+                moveDist = attack2Move;
+                damage = attack2Damage;
+                anim.SetTrigger("Attack2");
+                break;
+
+            case State.Attack3:
+                activeWeapon = lungeWeapon;
+                duration = attackDuration3;
+                moveDist = attack3Lunge;
+                damage = attack3Damage;
+                anim.SetTrigger("Attack3");
+                break;
+
+            default:
+                yield break;
         }
 
-        MoveForward(moveDistance, direction);
+        activeWeapon.SetDamage(damage);
+        activeWeapon.EnableHit();
+        MoveForward(moveDist, lockedAttackDirection, duration);
+
+        yield return new WaitForSeconds(duration * 0.5f);
+        activeWeapon.DisableHit();
+
+        yield return new WaitForSeconds(duration * 0.5f);
     }
 
-    private IEnumerator DisableWeaponAfter(WeaponHitbox w, float time)
+
+    void MoveForward(float distance, Vector2 direction, float duration)
     {
-        yield return new WaitForSeconds(time);
-        if (w != null) w.DisableHit();
+        if (moveRoutine != null)
+            StopCoroutine(moveRoutine);
+
+        moveRoutine = StartCoroutine(MoveRoutine(distance, direction, duration));
     }
 
-    private void MoveForward(float distance, Vector3 direction)
+    IEnumerator MoveRoutine(float distance, Vector2 direction, float duration)
     {
-        if (moveCoroutine != null) StopCoroutine(moveCoroutine);
-        moveCoroutine = StartCoroutine(MoveForwardCoroutine(distance, direction));
-    }
+        Vector2 start = rb.position;
+        Vector2 target = start + direction * distance;
 
-    private IEnumerator MoveForwardCoroutine(float distance, Vector3 direction)
-    {
-        Vector3 startPos = transform.position;
-        Vector3 targetPos = startPos + direction * distance;
         float elapsed = 0f;
-        float duration = attackDuration / 2f;
 
         while (elapsed < duration)
         {
-            transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            rb.position = Vector2.Lerp(start, target, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = targetPos;
+        rb.position = target;
+    }
+
+    void RotateCombatPivot(Vector2 dir)
+    {
+        if (!combatPivot) return;
+
+        float sign = Mathf.Sign(transform.lossyScale.x);
+        Vector2 correctedDir = new Vector2(dir.x * sign, dir.y);
+
+        float angle = Mathf.Atan2(correctedDir.y, correctedDir.x) * Mathf.Rad2Deg;
+        combatPivot.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    void ResetCombo()
+    {
+        currentState = State.Idle;
+        isAttacking = false;
+
+        weapon.DisableHit();
+        lungeWeapon.DisableHit();
     }
 }
