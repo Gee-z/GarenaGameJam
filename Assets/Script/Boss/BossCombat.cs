@@ -134,19 +134,20 @@ public class BossCombat : MonoBehaviour
 
     IEnumerator MoveRoutine(float distance, Vector2 direction, float duration)
     {
-        Vector2 start = rb.position;
-        Vector2 target = start + direction * distance;
+        direction.Normalize();
 
+        float speed = distance / duration;
         float elapsed = 0f;
+
+        rb.velocity = direction * speed;
 
         while (elapsed < duration)
         {
-            rb.position = Vector2.Lerp(start, target, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        rb.position = target;
+        rb.velocity = Vector2.zero;
     }
 
     void RotateCombatPivot(Vector2 dir)

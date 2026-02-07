@@ -105,22 +105,28 @@ public class Movement : MonoBehaviour
         Vector2 dashDirection = _input;
         if (dashDirection == Vector2.zero) dashDirection = Vector2.up;
 
-        Vector2 startPos = _rb.position;
-        Vector2 targetPos = startPos + dashDirection.normalized * dashDistance;
+        dashDirection.Normalize();
+
+        // Calculate dash speed from distance + duration
+        float dashSpeed = dashDistance / dashDuration;
+
+        // Apply velocity
+        _rb.velocity = dashDirection * dashSpeed;
 
         float elapsed = 0f;
 
         while (elapsed < dashDuration)
         {
-            _rb.position = Vector2.Lerp(startPos, targetPos, elapsed / dashDuration);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        _rb.position = targetPos;
+        // Stop movement
+        _rb.velocity = Vector2.zero;
 
         _isDashing = false;
         _invincible = false;
+
 
         UpdateAnimatorState();
 

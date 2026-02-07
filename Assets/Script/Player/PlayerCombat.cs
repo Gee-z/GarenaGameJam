@@ -245,23 +245,19 @@ public class PlayerCombat : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb == null) yield break;
 
-        Vector2 startPos = rb.position;
-        Vector2 targetPos = startPos + (Vector2)(direction.normalized * distance);
+        Vector2 moveDir = direction.normalized;
+        float moveTime = duration / 2f;
+        float speed = distance / moveTime;
+
         float elapsed = 0f;
+        rb.velocity = moveDir * speed;
 
-        // Calculate the velocity needed to reach the target in "duration / 2"
-        Vector2 velocity = (targetPos - startPos) / (duration / 2f);
-
-        // Temporarily override Rigidbody velocity
-        while (elapsed < duration / 2f)
+        while (elapsed < moveTime)
         {
-            rb.velocity = velocity;
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Snap to the final position and stop velocity
-        rb.position = targetPos;
         rb.velocity = Vector2.zero;
     }
 }
