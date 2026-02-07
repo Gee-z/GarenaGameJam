@@ -38,12 +38,15 @@ public class WeaponHitbox : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col)
     {
         if (!canHit) return;
-        if (!col.CompareTag("Enemy")) return;
         if (alreadyHit.Contains(col)) return;
 
-        alreadyHit.Add(col);
-        col.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
-        Debug.Log($"Hit {col.name} for {damage} damage");
+        IDamageable damageable = col.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage);
+            alreadyHit.Add(col);
+            Debug.Log($"Hit {col.name} for {damage} damage");
+        }
     }
     public void PointTowardMouse()
     {
