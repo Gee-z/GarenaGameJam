@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - VFX
   - Water
   - UI
   - 
@@ -46,6 +46,9 @@ TagManager:
     locked: 0
   - name: Wall
     uniqueID: 2399782523
+    locked: 0
+  - name: VFX
+    uniqueID: 2113636261
     locked: 0
   - name: Character
     uniqueID: 3558583913
