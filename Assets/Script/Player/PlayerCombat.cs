@@ -23,6 +23,7 @@ public class PlayerCombat : MonoBehaviour
     public float attack1Move = 0.3f;
     public float attack2Move = 0.4f;
     public float attack3Lunge = 1f;
+    public Animator anim;
     private State currentState = State.Idle;
     private float stateTimer = 0f;
     private bool attackBuffered = false;
@@ -153,6 +154,7 @@ public class PlayerCombat : MonoBehaviour
                 {
                     weapon.SetDamage(attack1Damage);
                     weapon.EnableHit();
+                    anim.SetTrigger("Attack1");
                     StartCoroutine(DisableWeaponAfter(weapon, attackDuration / 2f));
                 }
                 break;
@@ -161,6 +163,7 @@ public class PlayerCombat : MonoBehaviour
                 {
                     weapon.SetDamage(attack2Damage);
                     weapon.EnableHit();
+                    anim.SetTrigger("Attack2");
                     StartCoroutine(DisableWeaponAfter(weapon, attackDuration / 2f));
                 }
                 break;
@@ -169,7 +172,8 @@ public class PlayerCombat : MonoBehaviour
                 {
                     lungeWeapon.SetDamage(attack3Damage);
                     lungeWeapon.EnableHit();
-                    StartCoroutine(DisableWeaponAfter(lungeWeapon, attackDuration / 2f));
+                    anim.SetTrigger("Attack3");
+                    StartCoroutine(DisableWeaponAfter(lungeWeapon, attackDuration));
                 }
                 break;
         }

@@ -7,84 +7,126 @@ public class Movement : MonoBehaviour
     public float moveSpeed = 5f;
     public float acceleration = 10f;
     public float deceleration = 15f;
+    public Animator anim;
+    public GameObject visualObject;
 
-    public float dashDistance = 3f;      
-    public float dashDuration = 0.2f;    
-    public float dashCooldown = 1f;       
-    private bool canDash = true;
-    private Rigidbody2D rb;
-    private Vector2 input;
-    private Vector2 currentVelocity;
-    private bool isDashing = false;
+    public float dashDistance = 3f;
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 1f;
 
-    // I-frame
-    private bool invincible = false;
+    private bool _canDash = true;
+    private Rigidbody2D _rb;
+    private Vector2 _input;
+    private Vector2 _currentVelocity;
+    private bool _isMoving;
+    private bool _isDashing;
+    private bool _invincible;
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        input = new Vector2(
+        _input = new Vector2(
             Input.GetAxisRaw("Horizontal"),
             Input.GetAxisRaw("Vertical")
         ).normalized;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        if (_input.x > 0.01f) SetVisualFacing(-1f);
+        else if (_input.x < -0.01f) SetVisualFacing(1f);
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _canDash)
         {
             StartCoroutine(Dash());
         }
+
+        UpdateAnimatorState();
     }
 
     void FixedUpdate()
     {
-        Vector2 targetVelocity = input * moveSpeed;
+        if (_isDashing) return;
 
-        float smooth = input.magnitude > 0 ? acceleration : deceleration;
+        Vector2 targetVelocity = _input * moveSpeed;
+        float smooth = _input.magnitude > 0 ? acceleration : deceleration;
 
-        currentVelocity = Vector2.Lerp(
-            rb.velocity,
+        _currentVelocity = Vector2.Lerp(
+            _rb.velocity,
             targetVelocity,
             smooth * Time.fixedDeltaTime
         );
 
-        rb.velocity = currentVelocity;
+        _rb.velocity = _currentVelocity;
     }
+
+    void UpdateAnimatorState()
+    {
+        bool movingNow = _input.sqrMagnitude > 0.001f;
+
+        if (_isDashing)
+        {
+            if (_isMoving)
+            {
+                _isMoving = false;
+                if (anim != null) anim.SetTrigger("Idle");
+            }
+            return;
+        }
+
+        if (movingNow != _isMoving)
+        {
+            _isMoving = movingNow;
+            if (anim != null) anim.SetTrigger(_isMoving ? "Move" : "Idle");
+        }
+    }
+
+    void SetVisualFacing(float xScale)
+    {
+        if (visualObject == null) return;
+
+        Vector3 s = visualObject.transform.localScale;
+        s.x = xScale;
+        visualObject.transform.localScale = s;
+    }
+
     IEnumerator Dash()
     {
-        canDash = false;
-        isDashing = true;
-        invincible = true; // I-frame
+        _canDash = false;
+        _isDashing = true;
+        _invincible = true;
 
-        Vector2 dashDirection = input;
-        if (dashDirection == Vector2.zero)
-            dashDirection = Vector2.up; // default forward if no input
+        if (anim != null) anim.SetTrigger("Idle");
 
-        Vector2 startPos = rb.position;
+        Vector2 dashDirection = _input;
+        if (dashDirection == Vector2.zero) dashDirection = Vector2.up;
+
+        Vector2 startPos = _rb.position;
         Vector2 targetPos = startPos + dashDirection.normalized * dashDistance;
 
         float elapsed = 0f;
 
         while (elapsed < dashDuration)
         {
-            rb.position = Vector2.Lerp(startPos, targetPos, elapsed / dashDuration);
+            _rb.position = Vector2.Lerp(startPos, targetPos, elapsed / dashDuration);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        rb.position = targetPos;
+        _rb.position = targetPos;
 
-        isDashing = false;
-        invincible = false;
+        _isDashing = false;
+        _invincible = false;
 
-        // Start cooldown
+        UpdateAnimatorState();
+
         yield return new WaitForSeconds(dashCooldown);
-        canDash = true;
+        _canDash = true;
     }
+
     public bool IsInvincible()
     {
-        return invincible;
+        return _invincible;
     }
 }

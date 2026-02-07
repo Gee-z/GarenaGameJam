@@ -48,14 +48,17 @@ public class WeaponHitbox : MonoBehaviour
             Debug.Log($"Hit {col.name} for {damage} damage");
         }
     }
-    public void PointTowardTarget(Vector3 targetPosition, float weaponLength = 0.5f)
-    {
-        if (player == null) return;
+   public void PointTowardTarget(Vector3 targetPosition, float weaponLength = 0.5f)
+{
+    if (player == null) return;
 
-        Vector3 direction = (targetPosition - player.position).normalized;
+    Vector3 direction = (targetPosition - player.position).normalized;
 
-        transform.position = player.position + direction * weaponLength;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-    }
+    transform.position = player.position + direction * weaponLength;
+
+    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+    transform.rotation = Quaternion.Euler(0f, 0f, angle + 180f);
+}
+
 }
