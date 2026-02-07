@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1decb048f5e199545a97ed767277f40d
+guid: ba954b032c5c6c94db42bc5555bce6de
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,85 +97,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fish_0
+      name: turn based sprites_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.49467513, y: 0.78044003}
-      border: {x: 7, y: 6, z: 8, w: 23}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b9c8c210920c6ab4c9a7b612d3c4f377
-      internalID: 470848455
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fish_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.49644995, y: 0.7786651}
-      border: {x: 7, y: 6, z: 8, w: 23}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b2013b5ab649248418b7bbe8f93b96e2
-      internalID: 1679044846
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fish_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 64
+        x: 310
+        y: 63
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6257d13846388f549954267034a6b864
-      internalID: -312728292
+      spriteID: 358d4186614c5b947b248b7e0f4f2a60
+      internalID: 271857570
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fish_3
+      name: turn based sprites_1
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 64
+        x: 322
+        y: 57
+        width: 6
+        height: 8
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8cd8d4615406cb448ef38af9e0ae11d
-      internalID: -163282592
+      spriteID: ae1964dbf8b72094f93b5abc3ff41022
+      internalID: -1633322643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turn based sprites_2
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 26
+        width: 111
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2829b60f4964f12409e3d6e7fc56a75d
+      internalID: -795936991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turn based sprites_3
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 39
+        width: 73
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a5126481bc78114c8c5c024e3f2359d
+      internalID: -220429624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turn based sprites_4
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 47
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 789fa550253cb4d449a4f32bc7b9bbe7
+      internalID: -1455562479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: turn based sprites_5
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 44
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2332007f5272dd4a819b983f0641a97
+      internalID: -1080376309
       vertices: []
       indices: 
       edges: []
@@ -191,10 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fish_0: 470848455
-      fish_1: 1679044846
-      fish_2: -312728292
-      fish_3: -163282592
+      turn based sprites_0: 271857570
+      turn based sprites_1: -1633322643
+      turn based sprites_2: -795936991
+      turn based sprites_3: -220429624
+      turn based sprites_4: -1455562479
+      turn based sprites_5: -1080376309
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

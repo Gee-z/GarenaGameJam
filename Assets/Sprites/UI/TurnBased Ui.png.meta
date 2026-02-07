@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2e5773f8169b53b46952de0f2ced69b6
+guid: cb24f3e744c6f674abbcbde557fb17de
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,211 +97,274 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: full4_0
+      name: TurnBased Ui_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 19
-        width: 11
-        height: 11
+        x: 24
+        y: 82
+        width: 82
+        height: 38
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 4, z: 4, w: 4}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 68143c6fc27cf5945b4260cbf5cd09c0
-      internalID: -1138582948
+      spriteID: 64f78579ed67fff44a73c96cc17147e3
+      internalID: 1283330616
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: full4_1
+      name: TurnBased Ui_1
       rect:
         serializedVersion: 2
-        x: 33
-        y: 23
-        width: 11
-        height: 11
+        x: 125
+        y: 81
+        width: 84
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 5, z: 5, w: 3}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9cc66d3882ae8794ea21c12c15030733
-      internalID: 2107121466
+      spriteID: c635a758e8e67e948a02f7da51a3b93e
+      internalID: 922665839
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: full4_2
+      name: TurnBased Ui_2
       rect:
         serializedVersion: 2
-        x: 52
-        y: 23
-        width: 39
-        height: 20
+        x: 28
+        y: 62
+        width: 8
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c2b78b712446064088bf4475b106cf4
-      internalID: -2136633983
+      spriteID: 76617effe0453c2448eb7083b211db90
+      internalID: -881879014
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: full4_3
+      name: TurnBased Ui_3
       rect:
         serializedVersion: 2
-        x: 122
-        y: 26
-        width: 9
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eb936a9bd4d801e4281e0dc77f000f52
-      internalID: 815763070
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: full4_4
-      rect:
-        serializedVersion: 2
-        x: 136
-        y: 19
-        width: 7
+        x: 42
+        y: 63
+        width: 58
         height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 11, y: 0, z: 3, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 935ef47b5c64aaf4bad1dbef5c4a161a
-      internalID: 2082713930
+      spriteID: 295286587a9014f4399a967fa2601d65
+      internalID: -1060365032
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: full4_5
+      name: TurnBased Ui_4
       rect:
         serializedVersion: 2
-        x: 146
-        y: 27
-        width: 11
-        height: 11
+        x: 4
+        y: 30
+        width: 37
+        height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 4, z: 4, w: 4}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0289e5e049ac4884bbfcd41305e51461
-      internalID: -554961341
+      spriteID: 1ed9547ee85861b4c899b51d1988e9e5
+      internalID: 2044463518
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: full4_6
+      name: TurnBased Ui_5
       rect:
         serializedVersion: 2
-        x: 183
-        y: 20
-        width: 27
-        height: 20
+        x: 46
+        y: 30
+        width: 37
+        height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 4, z: 4, w: 4}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c7adab7b4988b44493b22f24186567e
-      internalID: -507043997
+      spriteID: 69dd5305b24f3404db20430cde1deae4
+      internalID: -1249292175
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: full4_7
+      name: TurnBased Ui_6
       rect:
         serializedVersion: 2
-        x: 217
-        y: 15
-        width: 15
-        height: 18
+        x: 88
+        y: 30
+        width: 37
+        height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 4, z: 4, w: 4}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3264cdc0bd787544ab51ada9f5b0f0b
-      internalID: 583424258
+      spriteID: 0e3416d4446c73447b09fb6547098dbe
+      internalID: 1742063859
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: full4_8
+      name: TurnBased Ui_7
       rect:
         serializedVersion: 2
-        x: 252
-        y: 25
-        width: 12
-        height: 10
+        x: 130
+        y: 30
+        width: 37
+        height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 4, z: 4, w: 4}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a4ee522410d33c4e876979e242846fe
-      internalID: -885271756
+      spriteID: f1178716b885ff7489934012d9b1818f
+      internalID: -1627092675
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: full4_9
+      name: TurnBased Ui_8
       rect:
         serializedVersion: 2
-        x: 281
-        y: 16
-        width: 31
-        height: 20
+        x: 4
+        y: 8
+        width: 37
+        height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 4, z: 4, w: 4}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d80f3ab94ebad3d44a4db578920f5864
+      internalID: 1629789632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TurnBased Ui_9
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 8
+        width: 37
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 4, z: 4, w: 4}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6459080171d0ebc40b772120102b6ed4
+      internalID: 864022512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TurnBased Ui_10
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 8
+        width: 37
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 4, z: 4, w: 4}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e68247449cd570d46a507838a9e2fa19
+      internalID: 1755888747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TurnBased Ui_11
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 8
+        width: 37
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 4, z: 4, w: 4}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80cd0de307c77224a9d32a026b850b18
+      internalID: -1470359668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TurnBased Ui_12
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 57
+        width: 44
+        height: 2
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1219aec29790f8d4792ab99256d2dd41
-      internalID: 1052853586
+      spriteID: 32fab6c7835ae9645b9adadd7589a438
+      internalID: 2001111513
       vertices: []
       indices: 
       edges: []
@@ -317,16 +380,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      full4_0: -1138582948
-      full4_1: 2107121466
-      full4_2: -2136633983
-      full4_3: 815763070
-      full4_4: 2082713930
-      full4_5: -554961341
-      full4_6: -507043997
-      full4_7: 583424258
-      full4_8: -885271756
-      full4_9: 1052853586
+      TurnBased Ui_0: 1283330616
+      TurnBased Ui_1: 922665839
+      TurnBased Ui_10: 1755888747
+      TurnBased Ui_11: -1470359668
+      TurnBased Ui_12: 2001111513
+      TurnBased Ui_2: -881879014
+      TurnBased Ui_3: -1060365032
+      TurnBased Ui_4: 2044463518
+      TurnBased Ui_5: -1249292175
+      TurnBased Ui_6: 1742063859
+      TurnBased Ui_7: -1627092675
+      TurnBased Ui_8: 1629789632
+      TurnBased Ui_9: 864022512
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
