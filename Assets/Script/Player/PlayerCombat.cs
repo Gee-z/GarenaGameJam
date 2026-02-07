@@ -8,6 +8,7 @@ public class PlayerCombat : MonoBehaviour
     public float attackDuration = 0.4f;
     public float comboWindow = 0.3f;
     public WeaponHitbox weapon;
+    public WeaponHitbox lungeWeapon;
     public int attack1Damage = 10;
     public int attack2Damage = 10;
     public int attack3Damage = 20;
@@ -19,11 +20,14 @@ public class PlayerCombat : MonoBehaviour
         Attack3
     }
 
+    public float attack1Move = 0.3f;
+    public float attack2Move = 0.4f;
+    public float attack3Lunge = 1f;
     private State currentState = State.Idle;
     private float stateTimer = 0f;
     private bool attackBuffered = false;
     private bool attackHitDone = false;
-
+    private Coroutine moveCoroutine;
     //private Animator anim;
 
     void Awake()
@@ -35,7 +39,7 @@ public class PlayerCombat : MonoBehaviour
     {
         HandleInput();
         UpdateState();
-        weapon.PointTowardMouse();
+        PointWeaponsTowardMouse();
     }
 
     void HandleInput()
@@ -44,7 +48,7 @@ public class PlayerCombat : MonoBehaviour
         {
             if (currentState == State.Idle)
             {
-                StartAttack1();
+                StartAttack(State.Attack1);
             }
             else
             {
@@ -81,42 +85,52 @@ public class PlayerCombat : MonoBehaviour
 
     void BufferCombo()
     {
-        if (currentState == State.Attack1)
-            StartAttack2();
-        else if (currentState == State.Attack2)
-            StartAttack3();
-
-        // reset buffered input
+        switch (currentState)
+        {
+            case State.Attack1: StartAttack(State.Attack2); break;
+            case State.Attack2: StartAttack(State.Attack3); break;
+        }
         attackBuffered = false;
     }
-    void StartAttack1()
+    void StartAttack(State newState)
     {
-        currentState = State.Attack1;
+        currentState = newState;
         stateTimer = comboResetTime;
         attackBuffered = false;
         attackHitDone = false;
-        Debug.Log("Attack1");
-        //anim.Play("Attack1", 0, 0f);
-    }
+        WeaponHitbox activeWeapon = null;
+        float moveDistance = 0f;
+        // Move forward based on attack type
+        switch (currentState)
+        {
+            case State.Attack1:
+                activeWeapon = weapon;
+                moveDistance = attack1Move;
+                activeWeapon.SetDamage(attack1Damage);
+                break;
+            case State.Attack2:
+                activeWeapon = weapon;
+                moveDistance = attack2Move;
+                activeWeapon.SetDamage(attack2Damage);
+                break;
+            case State.Attack3:
+                activeWeapon = lungeWeapon;
+                moveDistance = attack3Lunge;
+                activeWeapon.SetDamage(attack3Damage);
+                break;
+        }
 
-    void StartAttack2()
-    {
-        currentState = State.Attack2;
-        stateTimer = comboResetTime;
-        attackBuffered = false;
-        attackHitDone = false;
-        Debug.Log("Attack2");
-       // anim.Play("Attack2", 0, 0f);
-    }
+        // Move first (starts dash immediately)
+        MoveForward(moveDistance);
 
-    void StartAttack3()
-    {
-        currentState = State.Attack3;
-        stateTimer = attackDuration;
-        attackBuffered = false;
-        attackHitDone = false;
-        Debug.Log("Attack3");
-        // anim.Play("Attack3", 0, 0f);
+        // Enable collider throughout the dash
+        if (activeWeapon != null)
+        {
+            activeWeapon.EnableHit();
+            StartCoroutine(DisableWeaponAfter(activeWeapon, attackDuration));
+        }
+
+        Debug.Log(currentState.ToString());
     }
 
     void ResetCombo()
@@ -125,33 +139,91 @@ public class PlayerCombat : MonoBehaviour
         stateTimer = 0f;
         attackBuffered = false;
         attackHitDone = false;
-        if (weapon != null)
-            weapon.DisableHit();
-        Debug.Log("Combo Reset");
+
+        if (weapon != null) weapon.DisableHit();
+        if (lungeWeapon != null) lungeWeapon.DisableHit();
     }
+
     void TriggerAttackHit()
     {
-        if (weapon == null)
-        {
-            Debug.LogWarning("Weapon not assigned!");
-            return;
-        }
-
         switch (currentState)
         {
-            case State.Attack1: weapon.SetDamage(attack1Damage); break;
-            case State.Attack2: weapon.SetDamage(attack2Damage); break;
-            case State.Attack3: weapon.SetDamage(attack3Damage); break;
+            case State.Attack1:
+                if (weapon != null)
+                {
+                    weapon.SetDamage(attack1Damage);
+                    weapon.EnableHit();
+                    StartCoroutine(DisableWeaponAfter(weapon, attackDuration / 2f));
+                }
+                break;
+            case State.Attack2:
+                if (weapon != null)
+                {
+                    weapon.SetDamage(attack2Damage);
+                    weapon.EnableHit();
+                    StartCoroutine(DisableWeaponAfter(weapon, attackDuration / 2f));
+                }
+                break;
+            case State.Attack3:
+                if (lungeWeapon != null)
+                {
+                    lungeWeapon.SetDamage(attack3Damage);
+                    lungeWeapon.EnableHit();
+                    StartCoroutine(DisableWeaponAfter(lungeWeapon, attackDuration / 2f));
+                }
+                break;
         }
-        weapon.EnableHit();
-
-        // Disable after half the attack duration
-        StartCoroutine(DisableWeaponAfter(attackDuration / 2f));
     }
-    IEnumerator DisableWeaponAfter(float time)
+
+    IEnumerator DisableWeaponAfter(WeaponHitbox w, float time)
     {
         yield return new WaitForSeconds(time);
+        if (w != null) w.DisableHit();
+    }
+
+    void PointWeaponsTowardMouse()
+    {
+        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorld.z = 0;
+
         if (weapon != null)
-            weapon.DisableHit();
+            weapon.PointTowardTarget(mouseWorld, 0.5f);
+
+        if (lungeWeapon != null)
+            lungeWeapon.PointTowardTarget(mouseWorld, 0.5f);
+    }
+
+    void MoveForward(float distance)
+    {
+        if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+        moveCoroutine = StartCoroutine(MoveForwardCoroutine(distance));
+    }
+
+    IEnumerator MoveForwardCoroutine(float distance)
+    {
+        Vector3 startPos = transform.position;
+        Vector3 targetPos;
+
+        // Choose direction: forward along current mouse direction
+        Vector3 direction = Vector3.zero;
+
+        if ((currentState == State.Attack1 || currentState == State.Attack2) && weapon != null)
+            direction = (weapon.transform.position - transform.position).normalized;
+        else if (currentState == State.Attack3 && lungeWeapon != null)
+            direction = (lungeWeapon.transform.position - transform.position).normalized;
+
+        targetPos = startPos + direction * distance;
+
+        float elapsed = 0f;
+        float duration = attackDuration / 2f;
+
+        while (elapsed < duration)
+        {
+            transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPos;
     }
 }
