@@ -101,6 +101,7 @@ public class BattleManager : MonoBehaviour
     {
         battleState = BattleState.Win;
         battleUI.SetButtonsInteractable(false);
+        //change scene
         battleUI.ShowMessage("Enemy fainted! You win!");
     }
     private string GetRandomUselessMessage()

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 public class Health : MonoBehaviour, IDamageable
 {
+    public enum EntityRole { None, Player, Boss }
+    public EntityRole role = EntityRole.None;
     public int maxHP = 50;
     private int currentHP;
     public UnityEvent onDeath;
@@ -68,6 +70,15 @@ public class Health : MonoBehaviour, IDamageable
     void Die()
     {
         onDeath?.Invoke();
+        // Trigger global win/lose if this health belongs to player or boss
+        if (role == EntityRole.Player)
+        {
+            if (WinManager.Instance != null) WinManager.Instance.Lose();
+        }
+        else if (role == EntityRole.Boss)
+        {
+            if (WinManager.Instance != null) WinManager.Instance.Win();
+        }
         Destroy(gameObject);
     }
 }

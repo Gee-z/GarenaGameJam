@@ -4011,9 +4011,9 @@ MonoBehaviour:
   messageText: {fileID: 86693079}
   actionButtons:
   - {fileID: 268581167}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 720457657}
+  - {fileID: 1192869004}
+  - {fileID: 912448702}
   enemyHPSlider: {fileID: 825478084}
   playerDamageText: {fileID: 576556897}
   enemyDamageText: {fileID: 570565612}

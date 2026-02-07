@@ -61,7 +61,7 @@ public class WeaponHitbox : MonoBehaviour
                 if (!originalIsTrigger.ContainsKey(col)) originalIsTrigger[col] = col.isTrigger;
                 col.isTrigger = true;
                 col.enabled = true;
-                Debug.Log($"WeaponHitbox EnableHit: enabled {col.name} isTrigger={col.isTrigger} attachedRigidbody={(col.attachedRigidbody!=null)}");
+                
 
                 // Immediately check for overlapping colliders so targets already inside hitbox get hit
                 ContactFilter2D filter = new ContactFilter2D();
@@ -70,7 +70,7 @@ public class WeaponHitbox : MonoBehaviour
                 int count = col.OverlapCollider(filter, results);
                 if (count > 0)
                 {
-                    Debug.Log($"WeaponHitbox EnableHit: {col.name} overlapping {count} colliders");
+                    
                     foreach (var r in results)
                         if (r != null)
                             ProcessHitOnCollider(r);
@@ -92,7 +92,6 @@ public class WeaponHitbox : MonoBehaviour
                 if (originalIsTrigger.ContainsKey(col))
                     col.isTrigger = originalIsTrigger[col];
                 col.enabled = false;
-                Debug.Log($"WeaponHitbox DisableHit: disabled {col.name} isTrigger={col.isTrigger}");
             }
 
         lockRotation = false;

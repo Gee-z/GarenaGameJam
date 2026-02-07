@@ -26,11 +26,10 @@ public class BossAI : MonoBehaviour
     private BossState currentState = BossState.Idle;
     private bool actionInProgress = false;
     private Rigidbody2D rb;
-    public float introDelay = 2f;
+    public float introDelay = 0f;
     private bool canAct = false;
-    IEnumerator Start()
+    void Start()
     {
-        yield return new WaitForSeconds(introDelay);
         canAct = true;
     }
     void Awake()
