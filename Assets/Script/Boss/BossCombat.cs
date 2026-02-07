@@ -135,7 +135,7 @@ public class BossCombat : MonoBehaviour
     IEnumerator MoveRoutine(float distance, Vector2 direction, float duration)
     {
         direction.Normalize();
-
+    
         float speed = distance / duration;
         float elapsed = 0f;
 

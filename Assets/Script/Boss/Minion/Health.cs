@@ -42,27 +42,7 @@ public class Health : MonoBehaviour, IDamageable
     IEnumerator InvulnerabilityCoroutine()
     {
         invulnerable = true;
-        // simple visual feedback: flash sprite renderers if present
-        SpriteRenderer[] rends = GetComponentsInChildren<SpriteRenderer>(true);
-        Color[] originals = new Color[rends.Length];
-        for (int i = 0; i < rends.Length; i++) originals[i] = rends[i].color;
-
-        float elapsed = 0f;
-        float flashInterval = 0.1f;
-        while (elapsed < iFrameDuration)
-        {
-            // tint red
-            for (int i = 0; i < rends.Length; i++) if (rends[i] != null) rends[i].color = Color.red;
-            yield return new WaitForSeconds(flashInterval);
-            elapsed += flashInterval;
-            // restore
-            for (int i = 0; i < rends.Length; i++) if (rends[i] != null) rends[i].color = originals[i];
-            yield return new WaitForSeconds(flashInterval);
-            elapsed += flashInterval;
-        }
-
-        // ensure original colors restored
-        for (int i = 0; i < rends.Length; i++) if (rends[i] != null) rends[i].color = originals[i];
+        yield return new WaitForSeconds(iFrameDuration);
         invulnerable = false;
         iFrameCoroutine = null;
     }
