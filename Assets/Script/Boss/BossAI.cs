@@ -5,99 +5,119 @@ using UnityEngine;
 public class BossAI : MonoBehaviour
 {
     public Transform player;
-    public float moveSpeed = 3f;
+    public float moveSpeed = 1f;
     public BossCombat combat;   
 
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
+    public float bulletSpeed = 5f;
+    public int bulletCount = 12;                
+    public float bulletAngle = 60f;
 
     public GameObject minionPrefab;
     public Transform[] minionSpawnPoints; // assign 10 positions
 
-    public float actionPauseTime = 1.5f;
+    public float actionCooldown = 1.5f;
 
     public int minSummon = 3;
     public int maxSummon = 5;
 
     private BossState currentState = BossState.Idle;
+    private bool actionInProgress = false;
     void Update()
     {
-        switch (currentState)
+        if (currentState == BossState.ChasePlayer || currentState == BossState.MeleeAttack)
         {
-            case BossState.Idle: ChooseNextAction(); break;
-            case BossState.ChasePlayer: ChasePlayer(); break;
+            ChasePlayer();
+        }
+        if (!actionInProgress)
+        {
+            StartCoroutine(ChooseAction());
         }
     }
-
-    void ChooseNextAction()
-    {
-        int action = Random.Range(0, 3);
-        switch(action)
-        {
-            case 0: StartCoroutine(DoMeleeAttack()); break;
-            case 1: StartCoroutine(DoBulletHell()); break;
-            case 2: StartCoroutine(DoSummonMinions()); break;
-        }
-    }
-
     void ChasePlayer()
     {
         if (player == null) return;
         Vector3 dir = (player.position - transform.position).normalized;
         transform.position += dir * moveSpeed * Time.deltaTime;
     }
-
-    IEnumerator DoMeleeAttack()
+    IEnumerator ChooseAction()
     {
-        currentState = BossState.MeleeAttack;
-        if (combat != null)
-            combat.StartMeleeCombo();
-        float totalTime = (combat.attackDuration + combat.comboResetTime) * 3f;
-        yield return new WaitForSeconds(totalTime);
+        actionInProgress = true;
 
-        currentState = BossState.Tired;
-        yield return new WaitForSeconds(actionPauseTime);
+        // Pick random action: 0=melee, 1=bullet, 2=summon
+        int choice = Random.Range(0, 3);
+
+        switch (choice)
+        {
+            case 0: 
+                currentState = BossState.MeleeAttack;
+                yield return StartCoroutine(MeleeAttack());
+                break;
+
+            case 1: 
+                currentState = BossState.BulletHell;
+                yield return StartCoroutine(DoBulletHell());
+                break;
+
+            case 2: 
+                currentState = BossState.SummonMinions;
+                yield return StartCoroutine(DoSummonMinions());
+                break;
+        }
+
         currentState = BossState.Idle;
+        yield return new WaitForSeconds(actionCooldown);
+        actionInProgress = false;
+    }
+
+    IEnumerator MeleeAttack()
+    {
+        while (Vector3.Distance(transform.position, player.position) > 1f)
+        {
+            ChasePlayer();
+            yield return null;
+        }
+
+        combat.StartCombo();
+        yield return new WaitForSeconds(combat.attackDuration * 3f);
     }
 
     IEnumerator DoBulletHell()
     {
-        currentState = BossState.BulletHell;
+        Vector3 toPlayer = (player.position - bulletSpawn.position).normalized;
+        float baseAngle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
 
-        for (int i = -2; i <= 2; i++)
+        float angleStep = bulletAngle / (bulletCount - 1);
+        float startAngle = baseAngle - bulletAngle / 2f;
+
+        for (int i = 0; i < bulletCount; i++)
         {
-            GameObject b = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
-            b.GetComponent<Rigidbody2D>().velocity = new Vector2(i, 5f);
+            float angle = startAngle + angleStep * i;
+            Vector3 dir = Quaternion.Euler(0, 0, angle) * Vector3.right;
+
+            GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
+            bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
         }
 
-        currentState = BossState.Tired;
-        yield return new WaitForSeconds(actionPauseTime);
-        currentState = BossState.Idle;
+        yield return new WaitForSeconds(0.5f);
     }
 
     IEnumerator DoSummonMinions()
     {
-        currentState = BossState.SummonMinions;
+        int count = Random.Range(minSummon, maxSummon + 1);
+        List<Transform> spawnPool = new List<Transform>(minionSpawnPoints);
 
-        if (minionSpawnPoints.Length == 0) yield break;
-
-        int spawnCount = Random.Range(minSummon, maxSummon + 1);
-        List<int> availableIndices = new List<int>();
-        for (int i = 0; i < minionSpawnPoints.Length; i++) availableIndices.Add(i);
-
-        for (int i = 0; i < spawnCount; i++)
+        for (int i = 0; i < count; i++)
         {
-            if (availableIndices.Count == 0) break;
+            if (spawnPool.Count == 0) break;
+            int index = Random.Range(0, spawnPool.Count);
+            Transform spawnPoint = spawnPool[index];
+            spawnPool.RemoveAt(index);
 
-            int randIndex = Random.Range(0, availableIndices.Count);
-            int spawnIndex = availableIndices[randIndex];
-            availableIndices.RemoveAt(randIndex);
-
-            Instantiate(minionPrefab, minionSpawnPoints[spawnIndex].position, Quaternion.identity);
+            Instantiate(minionPrefab, spawnPoint.position, Quaternion.identity);
         }
 
-        currentState = BossState.Tired;
-        yield return new WaitForSeconds(actionPauseTime);
-        currentState = BossState.Idle;
+        yield return new WaitForSeconds(0.5f);
     }
 }

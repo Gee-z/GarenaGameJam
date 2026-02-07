@@ -4,72 +4,90 @@ using UnityEngine;
 
 public class BossCombat : MonoBehaviour
 {
-    public WeaponHitbox weapon;
+    public WeaponHitbox weapon;       // For Attack1 & Attack2
+    public WeaponHitbox lungeWeapon;  // For Attack3
+    public Transform player;          // Player to target
+    public float attackDuration = 0.4f;
+    public float attack1Move = 0.3f;
+    public float attack2Move = 0.4f;
+    public float attack3Lunge = 1f;
 
     public int attack1Damage = 10;
     public int attack2Damage = 10;
     public int attack3Damage = 20;
 
-    public float attackDuration = 0.4f;  // per hit duration
-    public float comboResetTime = 0.6f;  // gap between hits
-
-    [Header("Forward Movement Per Hit")]
-    public float attack1Forward = 0.5f;
-    public float attack2Forward = 0.7f;
-    public float attack3Forward = 1f;
-
-    public Transform player;
-
     private enum State { Idle, Attack1, Attack2, Attack3 }
     private State currentState = State.Idle;
-    public void StartMeleeCombo()
+
+    private Coroutine moveCoroutine;
+
+    public void StartCombo()
     {
         if (currentState == State.Idle)
-        {
-            StartCoroutine(DoCombo());
-        }
+            StartCoroutine(ComboRoutine());
     }
 
-    private IEnumerator DoCombo()
+    private IEnumerator ComboRoutine()
     {
-        Vector3 originalPos = transform.position;
-
-        // Attack 1
+        // --- ATTACK 1 ---
         currentState = State.Attack1;
-        weapon.SetDamage(attack1Damage);
-        weapon.EnableHit();
-        MoveForward(attack1Forward);
-        yield return new WaitForSeconds(attackDuration);
-        weapon.DisableHit();
-        transform.position = originalPos; // return
-        yield return new WaitForSeconds(comboResetTime);
+        Vector3 dir1 = (player.position - transform.position).normalized;
+        ExecuteAttack(weapon, attack1Damage, attack1Move, dir1);
+        yield return new WaitForSeconds(attackDuration); // pause between attacks
 
-        // Attack 2
+        // --- ATTACK 2 ---
         currentState = State.Attack2;
-        weapon.SetDamage(attack2Damage);
-        weapon.EnableHit();
-        MoveForward(attack2Forward);
+        Vector3 dir2 = (player.position - transform.position).normalized;
+        ExecuteAttack(weapon, attack2Damage, attack2Move, dir2);
         yield return new WaitForSeconds(attackDuration);
-        weapon.DisableHit();
-        transform.position = originalPos;
-        yield return new WaitForSeconds(comboResetTime);
 
-        // Attack 3
+        // --- LUNGE ATTACK ---
         currentState = State.Attack3;
-        weapon.SetDamage(attack3Damage);
-        weapon.EnableHit();
-        MoveForward(attack3Forward);
+        Vector3 dir3 = (player.position - transform.position).normalized;
+        ExecuteAttack(lungeWeapon, attack3Damage, attack3Lunge, dir3, true); // lock rotation
         yield return new WaitForSeconds(attackDuration);
-        weapon.DisableHit();
-        transform.position = originalPos;
 
         currentState = State.Idle;
     }
 
-    private void MoveForward(float distance)
+    private void ExecuteAttack(WeaponHitbox activeWeapon, int damage, float moveDistance, Vector3 direction, bool lockRotation = false)
     {
-        if (player == null) return;
-        Vector3 dir = (player.position - transform.position).normalized;
-        transform.position += dir * distance;
+        if (activeWeapon != null)
+        {
+            // Enable collider and optionally lock rotation
+            activeWeapon.EnableHit(lockRotation, direction);
+            StartCoroutine(DisableWeaponAfter(activeWeapon, attackDuration));
+        }
+
+        MoveForward(moveDistance, direction);
+    }
+
+    private IEnumerator DisableWeaponAfter(WeaponHitbox w, float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (w != null) w.DisableHit();
+    }
+
+    private void MoveForward(float distance, Vector3 direction)
+    {
+        if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+        moveCoroutine = StartCoroutine(MoveForwardCoroutine(distance, direction));
+    }
+
+    private IEnumerator MoveForwardCoroutine(float distance, Vector3 direction)
+    {
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = startPos + direction * distance;
+        float elapsed = 0f;
+        float duration = attackDuration / 2f;
+
+        while (elapsed < duration)
+        {
+            transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPos;
     }
 }

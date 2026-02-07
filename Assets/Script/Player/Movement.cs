@@ -21,6 +21,8 @@ public class Movement : MonoBehaviour
     private bool _isMoving;
     private bool _isDashing;
     private bool _invincible;
+    public PlayerCombat combat;
+    private bool _movementLocked = false;
 
     void Awake()
     {
@@ -29,6 +31,7 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
+        if (_movementLocked || combat.isAttacking) return;
         _input = new Vector2(
             Input.GetAxisRaw("Horizontal"),
             Input.GetAxisRaw("Vertical")
@@ -47,7 +50,7 @@ public class Movement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_isDashing) return;
+        if (_isDashing || _movementLocked || combat.isAttacking) return;
 
         Vector2 targetVelocity = _input * moveSpeed;
         float smooth = _input.magnitude > 0 ? acceleration : deceleration;
@@ -128,5 +131,16 @@ public class Movement : MonoBehaviour
     public bool IsInvincible()
     {
         return _invincible;
+    }
+    public void LockMovement()
+    {
+        _movementLocked = true;
+        _rb.velocity = Vector2.zero;
+        _input = Vector2.zero;
+    }
+
+    public void UnlockMovement()
+    {
+        _movementLocked = false;
     }
 }

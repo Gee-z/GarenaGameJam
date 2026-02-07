@@ -4,37 +4,70 @@ using UnityEngine;
 
 public class WeaponHitbox : MonoBehaviour
 {
-    public Collider2D hitCollider;
+    public Collider2D[] hitCollider;
     private int damage = 10;
     private bool canHit = false;
     private HashSet<Collider2D> alreadyHit = new HashSet<Collider2D>();
-    private Transform player;
-
+    private bool lockRotation = false;
+    private Vector3 fixedDirection;
+    public Transform pivot;
+    public Transform target;
     private void Awake()
     {
-        player = transform.parent;
-        if (hitCollider != null)
-            hitCollider.enabled = false; 
+        foreach (var col in hitCollider)
+            if (col != null) col.enabled = false;
     }    
     public void SetDamage(int dmg)
     {
         damage = dmg;
         alreadyHit.Clear();
     }
-    public void EnableHit()
+    public void EnableHit(bool lockRot = false, Vector3 direction = default)
     {
         canHit = true;
         alreadyHit.Clear();
-        hitCollider.enabled = true;
+        foreach (var col in hitCollider)
+            if (col != null) col.enabled = true;
+
+        // lockRotation = lockRot;
+        if (lockRotation) fixedDirection = direction.normalized;
     }
 
     public void DisableHit()
     {
         canHit = false;
         alreadyHit.Clear();
-        hitCollider.enabled = false;
+        foreach (var col in hitCollider)
+            if (col != null) col.enabled = false;
+
+        lockRotation = false;
     }
 
+    void Update()
+    {
+        if (pivot == null) return;
+
+        Vector3 dir;
+
+        if (lockRotation)
+        {
+            Debug.Log("lock");
+            // Keep the attack locked in a fixed direction
+            dir = fixedDirection;
+        }
+        else if (target != null)
+        {
+            // Normal pointing toward target (mouse or player)
+            dir = (target.position - pivot.position).normalized;
+        }
+        else
+        {
+            return; // nothing to do
+        }
+
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        pivot.rotation = Quaternion.Euler(0f, 0f, angle);   
+    }
     void OnTriggerEnter2D(Collider2D col)
     {
         if (!canHit) return;
@@ -48,17 +81,29 @@ public class WeaponHitbox : MonoBehaviour
             Debug.Log($"Hit {col.name} for {damage} damage");
         }
     }
-   public void PointTowardTarget(Vector3 targetPosition, float weaponLength = 0.5f)
-{
-    if (player == null) return;
+    public void UpdateRotation(Vector3 mouseWorld)
+    {
+        if (pivot == null) return;
 
-    Vector3 direction = (targetPosition - player.position).normalized;
+        if (lockRotation)
+        {
+            float angle = Mathf.Atan2(fixedDirection.y, fixedDirection.x) * Mathf.Rad2Deg;
+            pivot.rotation = Quaternion.Euler(0f, 0f, angle );
+        }
+        else
+        {
+            Vector3 dir = (mouseWorld - pivot.position).normalized;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            pivot.rotation = Quaternion.Euler(0f, 0f, angle );
+        }
+    }
+    public void lockRotationFunc()
+    {
+        lockRotation = true;
+    }
 
-    transform.position = player.position + direction * weaponLength;
-
-    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-    transform.rotation = Quaternion.Euler(0f, 0f, angle + 180f);
-}
-
+    public void UnlockRotation()
+    {
+        lockRotation = false;
+    }
 }
