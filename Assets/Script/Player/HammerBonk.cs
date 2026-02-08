@@ -12,6 +12,7 @@ public class HammerBonk : MonoBehaviour
 
     public void Bonk()
     {
+        AudioManager.Instance.PlaySFX(7); 
         float dir = transform.root.localScale.x >= 0 ? 1f : -1f;
         Vector2 center = (Vector2)transform.position + Vector2.right * dir * hitOffset;
 

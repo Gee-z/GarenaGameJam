@@ -283,7 +283,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.30231568, y: -3.9296842, z: -0.08451342}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4442, y: 2.3557, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1925209251809868698}
@@ -309,6 +309,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a838209b2d08a8f479999acfcc8fa37d, type: 3}
   - {fileID: 8300000, guid: 66e88b918e065d14a850bbf66c59f9c7, type: 3}
   - {fileID: 8300000, guid: 17306d363d158ad4db82929551d16a1e, type: 3}
+  - {fileID: 8300000, guid: 489c90e2dbc997349911a8492ff1828a, type: 3}
+  - {fileID: 8300000, guid: 8389bd316ef37d2438e0aa41b45f8f1f, type: 3}
   sfxClips:
   - {fileID: 8300000, guid: 20b135ece3479dd4ea56c1b8498f4544, type: 3}
   - {fileID: 8300000, guid: dac3b06e6c5ff4444bc91a983dfa4964, type: 3}

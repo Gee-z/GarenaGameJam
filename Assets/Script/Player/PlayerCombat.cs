@@ -144,7 +144,8 @@ public class PlayerCombat : MonoBehaviour
         attackDirection = (mouseWorld - transform.position).normalized; // lock this direction
 
         MoveForward(moveDistance, attackDirection, attackDur);
-
+        
+        AudioManager.Instance.PlaySFX(9); // play attack sound
         // Enable weapon collider and lock rotation
         if (activeWeapon != null)
         {
@@ -191,6 +192,7 @@ public class PlayerCombat : MonoBehaviour
                     weapon.SetDamage(attack1Damage);
                     weapon.EnableHit();
                     //anim.SetTrigger("Attack1");
+                    AudioManager.Instance.PlaySFX(6); 
                     StartCoroutine(DisableWeaponAfter(weapon, attackDuration / 2f));
                 }
                 break;
@@ -200,6 +202,7 @@ public class PlayerCombat : MonoBehaviour
                     weapon.SetDamage(attack2Damage);
                     weapon.EnableHit();
                     //anim.SetTrigger("Attack2");
+                    AudioManager.Instance.PlaySFX(7); 
                     StartCoroutine(DisableWeaponAfter(weapon, attackDuration / 2f));
                 }
                 break;
@@ -209,6 +212,7 @@ public class PlayerCombat : MonoBehaviour
                     lungeWeapon.SetDamage(attack3Damage);
                     lungeWeapon.EnableHit();
                     //anim.SetTrigger("Attack3");
+                    AudioManager.Instance.PlaySFX(8); 
                     StartCoroutine(DisableWeaponAfter(lungeWeapon, attackDuration));
                 }
                 break;

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 public enum BattleState
 {
     PlayerTurn,
@@ -17,6 +17,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private List<string> uselessActionMessages = new List<string>();
     [SerializeField] private GameObject enemyGameObject;
     [SerializeField] private float enemyDeathDelay = 1.0f;
+    public UnityEvent onBattleWin;
     private int playerAttackCount;
     public Animator playerAnim;
     public Animator enemyAnim;
@@ -110,6 +111,7 @@ public class BattleManager : MonoBehaviour
         battleUI.SetButtonsInteractable(false);
         //change scene
         battleUI.ShowMessage("Enemy fainted! You win!");
+        onBattleWin?.Invoke();
     }
     private string GetRandomUselessMessage()
     {

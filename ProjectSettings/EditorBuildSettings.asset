@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: cfbaa5a7cd9ac6d4d9196f0b4f1b4cab
   - enabled: 1
-    path: Assets/Sprites/UI/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
     path: Assets/Scenes/SideScroll.unity
     guid: 7cafc7c1af44e054b95522413c31be39
   - enabled: 1
@@ -20,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TopDown.unity
     guid: 3fc2504db0aa0b04bae7c3bde33e27e9
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 0e2d7374f8ab3aa4d8bd19f1007a2935
   m_configObjects: {}
