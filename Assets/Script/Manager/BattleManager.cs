@@ -15,8 +15,11 @@ public class BattleManager : MonoBehaviour
     [SerializeField] BattleUI battleUI;
     [SerializeField] private int ineffectiveHitsBeforeCrit = 3;
     [SerializeField] private List<string> uselessActionMessages = new List<string>();
+    [SerializeField] private GameObject enemyGameObject;
+    [SerializeField] private float enemyDeathDelay = 1.0f;
     private int playerAttackCount;
-
+    public Animator playerAnim;
+    public Animator enemyAnim;
     private void Start()
     {
         playerAttackCount = 0;
@@ -50,10 +53,10 @@ public class BattleManager : MonoBehaviour
     {
         battleState = BattleState.Busy;
         battleUI.SetButtonsInteractable(false);
-
         playerAttackCount++;
 
         battleUI.ShowMessage("You attacked!");
+        playerAnim.SetTrigger("PiringAttack");
         yield return new WaitForSeconds(0.8f);
 
         if (playerAttackCount <= ineffectiveHitsBeforeCrit)
@@ -70,15 +73,19 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
 
         battleUI.ShowEnemyDamage("100000", Color.yellow);
-        yield return new WaitForSeconds(1.2f);
         yield return StartCoroutine(battleUI.DrainEnemyHP());
+        enemyAnim.SetTrigger("AwanDamaged");
+        yield return new WaitForSeconds(0.7f);
+        if (enemyGameObject != null)
+            enemyGameObject.SetActive(false);
         WinBattle();
     }
 
     private IEnumerator EnemyAttack()
     {
         battleUI.ShowMessage("Enemy attacks!");
-        yield return new WaitForSeconds(0.6f);
+        enemyAnim.SetTrigger("AwanAttack");
+        yield return new WaitForSeconds(0.8f);
 
         battleUI.ShowPlayerDamage("9999", Color.red);
         battleUI.ShowMessage("Enemy dealt 9999 damage!");

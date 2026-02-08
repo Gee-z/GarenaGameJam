@@ -254,7 +254,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1fe417ad0f63a664ca78ec43d94c7324, type: 2}
   m_sharedMaterial: {fileID: -5866699127993855634, guid: 1fe417ad0f63a664ca78ec43d94c7324, type: 2}
@@ -573,7 +573,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LVL
+  m_text: ???
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1fe417ad0f63a664ca78ec43d94c7324, type: 2}
   m_sharedMaterial: {fileID: -5866699127993855634, guid: 1fe417ad0f63a664ca78ec43d94c7324, type: 2}
@@ -1464,7 +1464,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Name
+  m_text: Awan
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1fe417ad0f63a664ca78ec43d94c7324, type: 2}
   m_sharedMaterial: {fileID: -5866699127993855634, guid: 1fe417ad0f63a664ca78ec43d94c7324, type: 2}
@@ -1575,7 +1575,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 950, y: 94}
+  m_AnchoredPosition: {x: 950, y: 81}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &570565612
@@ -1598,9 +1598,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Damage
-
-'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1630,11 +1628,11 @@ MonoBehaviour:
   m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1711,7 +1709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1023, y: 104}
+  m_AnchoredPosition: {x: -1038, y: 60}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &576556897
@@ -1734,9 +1732,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Damage
-
-'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1766,11 +1762,11 @@ MonoBehaviour:
   m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -3702,8 +3698,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 257.50012, y: 53}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 172.19, y: 49.2}
+  m_SizeDelta: {x: 370.62, y: 113.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1599119758
 MonoBehaviour:
@@ -3725,7 +3721,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LVL
+  m_text: 'LVL: 9999
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1fe417ad0f63a664ca78ec43d94c7324, type: 2}
   m_sharedMaterial: {fileID: -5866699127993855634, guid: 1fe417ad0f63a664ca78ec43d94c7324, type: 2}
@@ -4441,11 +4439,11 @@ MonoBehaviour:
   enemyDamageText: {fileID: 570565612}
   drainPhases:
   - drainSpeed: 10
-    duration: 2
+    duration: 4
   - drainSpeed: 2
     duration: 5
   - drainSpeed: 10
-    duration: 3
+    duration: 2
 --- !u!114 &1871741050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4462,9 +4460,13 @@ MonoBehaviour:
   battleUI: {fileID: 1871741049}
   ineffectiveHitsBeforeCrit: 3
   uselessActionMessages:
-  - Gay
-  - No Damage
-  - Peak
+  - Nothing Happened...
+  - Try Other
+  - You Have Not Trained Enough
+  enemyGameObject: {fileID: 277450473}
+  enemyDeathDelay: 1
+  playerAnim: {fileID: 273803289}
+  enemyAnim: {fileID: 277450477}
 --- !u!4 &1871741051
 Transform:
   m_ObjectHideFlags: 0
@@ -4787,8 +4789,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -185, y: 53}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -165.65, y: 53}
+  m_SizeDelta: {x: 238.7, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2042981054
 MonoBehaviour:
@@ -4810,7 +4812,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Name
+  m_text: Piring
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1fe417ad0f63a664ca78ec43d94c7324, type: 2}
   m_sharedMaterial: {fileID: -5866699127993855634, guid: 1fe417ad0f63a664ca78ec43d94c7324, type: 2}
