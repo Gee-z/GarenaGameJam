@@ -20,8 +20,8 @@ public class BossAI : MonoBehaviour
     public float actionCooldown = 1.5f;
     public float meleeApproachTime = 0.4f;
 
-    public int minSummon = 3;
-    public int maxSummon = 5;
+    public int minSummon = 1;
+    public int maxSummon = 3;
 
     private BossState currentState = BossState.Idle;
     private bool actionInProgress = false;
