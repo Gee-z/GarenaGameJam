@@ -143,6 +143,7 @@ public class Movement : MonoBehaviour
         _movementLocked = true;
         _rb.velocity = Vector2.zero;
         _input = Vector2.zero;
+        anim?.SetTrigger("Idle");
     }
 
     public void UnlockMovement()

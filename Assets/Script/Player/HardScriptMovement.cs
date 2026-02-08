@@ -74,4 +74,9 @@ public class HardScriptMovement : MonoBehaviour
         if (spriteRenderer == null) return;
         spriteRenderer.flipX = flipX;
     }
+    public void StopMovement()
+    {
+        _rb.velocity = Vector2.zero;
+        _input = Vector2.zero;
+    }
 }

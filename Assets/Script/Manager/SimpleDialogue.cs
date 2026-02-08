@@ -26,7 +26,8 @@ public class SimpleDialogue : MonoBehaviour
             isTyping = false;
             return;
         }
-
+        if(typingRoutine != null)
+            StopCoroutine(typingRoutine);
         if (currentIndex >= lines.Count)
         {
             EndDialogue();
@@ -49,6 +50,8 @@ public class SimpleDialogue : MonoBehaviour
         }
 
         isTyping = false;
+        yield return new WaitForSeconds(2.5f);
+        textBox.text = "";
     }
 
     void EndDialogue()

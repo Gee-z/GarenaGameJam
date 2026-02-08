@@ -7,6 +7,7 @@ public class Health : MonoBehaviour, IDamageable
     public enum EntityRole { None, Player, Boss }
     public EntityRole role = EntityRole.None;
     public int maxHP = 50;
+    public Animator anim;
     private int currentHP;
     public UnityEvent onDeath;
     public UnityEvent<int, int> onHealthChanged;
@@ -28,7 +29,7 @@ public class Health : MonoBehaviour, IDamageable
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
 
         onHealthChanged?.Invoke(currentHP, maxHP);
-
+        anim?.SetTrigger("Damaged");
         if (currentHP <= 0)
             Die();
         else
