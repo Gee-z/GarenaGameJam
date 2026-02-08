@@ -21,11 +21,13 @@ public class ButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
     public void StartGame()
     {
+        AudioManager.Instance.PlaySFX(0);
         SceneManager.LoadScene("GameScene"); 
     }
 
     public void QuitGame()
     {
+        AudioManager.Instance.PlaySFX(0);
         Application.Quit();
     }
 }
